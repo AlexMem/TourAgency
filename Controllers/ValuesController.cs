@@ -1,16 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using TourAgency.Contexts;
 
 namespace TourAgency.Controllers {
     [Route("api/[controller]")]
-    public class ValuesController : Controller {
+    public class ValuesController : Controller {    
+        private readonly TourAgencyDbContext dbContext;
+
+        public ValuesController(TourAgencyDbContext dbContext) {
+            this.dbContext = dbContext;
+        }
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get() {
-            return new string[] {"value1", "value2"};
+        public IEnumerable<object> Get() {
+            using (dbContext) {
+                return dbContext.roles.ToList();
+            }
         }
 
         // GET api/values/5
