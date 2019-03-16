@@ -5,9 +5,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using TourAgency.Contexts;
 using TourAgency.Repositories;
+using TourAgency.Services;
 
 namespace TourAgency {
     public class Startup {
+        public IConfigurationRoot Configuration { get; }
+        
         public Startup(IHostingEnvironment env) {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -17,27 +20,33 @@ namespace TourAgency {
             Configuration = builder.Build();
         }
 
-        public IConfigurationRoot Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
             // Add framework services.
             services.AddMvc();
             services.AddDbContext<TourAgencyDbContext>();
+            
             services.AddScoped<OrderRepository>()
                     .AddScoped<RoleRepository>()
                     .AddScoped<TourRepository>()
                     .AddScoped<TypeRepository>()
                     .AddScoped<UserRepository>();
-            
+
+            services.AddScoped<OrderService>()
+                    .AddScoped<RoleService>()
+                    .AddScoped<TourService>()
+                    .AddScoped<TypeService>()
+                    .AddScoped<UserService>();
+
+            services.AddAuthorization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory) {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
-            app.UseMvc();
+            
+            app.UseMvc().UseWelcomePage("/api/login");
         }
     }
 }

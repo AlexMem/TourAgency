@@ -1,0 +1,36 @@
+@model object
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Log In</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container-fluid" style="text-align: center" align="center">
+    <h1>Login</h1>    
+
+    <form:form action="/login" modelAttribute="user" method="post">
+        <table class="table-borderless" align="center">
+            <tr>
+                <td><label> Email: </label></td>
+                <td><input style="margin: 10px 10px 10px" type="text" name="username"/></td>
+            </tr>
+            <tr>
+                <td><label> Password: </label></td>
+                <td><input style="margin: 10px 10px 10px" type="password" name="password"/></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input style="margin: 5px 5px 5px" type="submit" class="btn btn-info" value="Sign In"/>
+                    <input style="margin: 5px 5px 5px" type="button" class="btn btn-info" value="Sign Up"
+                           onClick='location.href="/registration"'/>
+                </td>
+            </tr>
+        </table>
+    </form:form>
+</div>
+</body>
+</html>

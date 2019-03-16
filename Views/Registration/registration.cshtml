@@ -1,0 +1,52 @@
+@using Google.Protobuf.WellKnownTypes
+@using Microsoft.AspNetCore.Http
+@using TourAgency.Models
+@model User
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container-fluid" style="text-align: center" align="center">
+    <h1>Registration</h1>
+    @using(Html.BeginForm("register", "Registration", FormMethod.Post))
+    {
+        
+        <table class="table-borderless" align="center">
+            <tr>
+                <td><label style="margin: 5px 5px 5px"> First Name: </label></td>
+                <td>@Html.TextBoxFor(model => model.firstName)</td>
+            </tr>
+            <tr>
+                <td><label style="margin: 5px 5px 5px"> Last Name: </label></td>
+                <td>@Html.TextBoxFor(model => model.lastName)</td>
+            </tr>
+            <tr>
+                <td><label style="margin: 5px 5px 5px"> Email: </label></td>
+                <td>@Html.TextBoxFor(model => model.email)</td>
+            </tr>
+            <tr>
+                <td><label style="margin: 5px 5px 5px"> Password: </label></td>
+                <td>@Html.PasswordFor(model => model.password)</td>
+            </tr>
+            <tr>
+                <td><label style="margin: 5px 5px 5px"> telephone: </label></td>
+                <td>@Html.TextBoxFor(model => model.telephone)</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input style="margin: 5px 5px 5px" type="submit" class="btn btn-info" value="Sign Up"/>
+                    <input style="margin: 5px 5px 5px" type="button" class="btn btn-info" value="Cancel"
+                           onclick='location.href = "/login"'/>
+                </td>
+            </tr>
+        </table>
+    }
+    </div>
+</body>
+</html>
