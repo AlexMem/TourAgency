@@ -1,16 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Reflection.Metadata;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using TourAgency.Contexts;
 using TourAgency.Models;
 using TourAgency.Repositories;
 
 namespace TourAgency.Services {
     public class UserService {
         private static readonly Regex TelephoneVerificationPattern = new Regex("^\\+?\\d{1,4}\\d{10}$");
-        private static readonly Regex EmailVerificationPattern = new Regex("^\\w+.?\\w{2,49}+@[a-z]+\\.[a-z]+$");
+        private static readonly Regex EmailVerificationPattern = new Regex("^\\w+.?\\w{2,49}@[a-z]+\\.[a-z]+$");
 
         private readonly UserRepository userRepository;
         private readonly RoleService roleService;
@@ -51,7 +50,10 @@ namespace TourAgency.Services {
         }
 
         public User create(User newUser) {
-//            verify(newUser);
+            verify(newUser);
+            newUser.password = Encoding.Unicode.GetString(SHA512.Create()
+                                                                .ComputeHash(Encoding.Unicode.GetBytes(newUser.password)));
+            
             return userRepository.create(newUser);
         }
 
@@ -65,7 +67,7 @@ namespace TourAgency.Services {
         }
 
         public void verify(User user) {
-            if (user.firstName.Length == 0 || user.lastName.Length == 0) {
+            if (string.IsNullOrEmpty(user.firstName) || string.IsNullOrEmpty(user.lastName)) {
                 throw new Exception("Input your first name and last name");
             }
             
@@ -75,7 +77,7 @@ namespace TourAgency.Services {
         }
 
         private void passwordValidation(string password) {
-            if (password.Length == 0) {
+            if (string.IsNullOrEmpty(password)) {
                 throw new Exception("Input your password");
             }
 
@@ -84,11 +86,17 @@ namespace TourAgency.Services {
             }
         }
         private void telephoneValidation(string telephone) {
+            if (string.IsNullOrEmpty(telephone)) {
+                throw new Exception("Input your telephone");
+            }
             if (!TelephoneVerificationPattern.IsMatch(telephone)) {
                 throw new Exception("Incorrect telephone number");
             }
         }
         private void emailValidation(User user) {
+            if (string.IsNullOrEmpty(user.email)) {
+                throw new Exception("Input your email");
+            }
             if (!EmailVerificationPattern.IsMatch(user.email)) {
                 throw new Exception("Incorrect email");
             }

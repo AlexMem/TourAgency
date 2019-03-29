@@ -1,7 +1,4 @@
-@using Google.Protobuf.WellKnownTypes
-@using Microsoft.AspNetCore.Http
-@using TourAgency.Models
-@model User
+@model TourAgency.Models.User
 <!DOCTYPE html>
 
 <html lang="en">
@@ -14,10 +11,20 @@
 
 <div class="container-fluid" style="text-align: center" align="center">
     <h1>Registration</h1>
-    @using(Html.BeginForm("register", "Registration", FormMethod.Post))
-    {
-        
+    @using(Html.BeginForm("registration", "Registration", FormMethod.Post)) {
         <table class="table-borderless" align="center">
+            <tr>
+                <td colspan="2">
+                    @{
+                        if (ViewData.ContainsKey("exception")) {
+                            <div class="alert alert-danger" role="alert">
+                                @ViewData.Eval("exception")
+                            </div>
+                        }
+                    }
+                </td>
+            </tr>
+            
             <tr>
                 <td><label style="margin: 5px 5px 5px"> First Name: </label></td>
                 <td>@Html.TextBoxFor(model => model.firstName)</td>

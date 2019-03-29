@@ -27,6 +27,11 @@ namespace TourAgency.Services {
 
         public Tour create(Tour newTour) {
             verify(newTour);
+            if (newTour.fromDate.CompareTo(DateTime.Now.ToBinary() - 6*TimeSpan.TicksPerHour) < 0) {
+                newTour.isActive = true;
+            } else {
+                newTour.isActive = false;
+            }
             return tourRepository.create(newTour);
         }
 
@@ -40,8 +45,28 @@ namespace TourAgency.Services {
         }
 
         public void verify(Tour tour) {
-            //TODO verification
-            throw new NotImplementedException();
+            if (tour.fromDate.CompareTo(DateTime.Now.ToBinary()) >= 0) {
+                throw new Exception("bad time");
+            }
+            if (tour.duration < 0) {
+                throw new Exception("bad duration");
+            }
+
+            if (tour.hotDiscount < 0 && tour.hotDiscount > 100) {
+                throw new Exception("bad hot discount");
+            }
+
+            if (tour.discount < 0 && tour.discount > 100) {
+                throw new Exception("bad discount");
+            }
+
+            if (tour.price < 0) {
+                throw new Exception("bad price");
+            }
+
+            if (tour.maxAmountOfPeople <= 0) {
+                throw new Exception("bad people amount");
+            }
         }
     }
 }

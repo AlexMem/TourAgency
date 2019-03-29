@@ -46,7 +46,7 @@ namespace TourAgency {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
             
-            app.UseMvc().UseWelcomePage("/api/login");
+            app.UseMvc().UseWelcomePage("/login");
         }
     }
 }

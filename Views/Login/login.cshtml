@@ -1,4 +1,4 @@
-@model object
+@model TourAgency.Models.Messages.Message
 
 <!DOCTYPE html>
 
@@ -10,10 +10,27 @@
 </head>
 <body>
 <div class="container-fluid" style="text-align: center" align="center">
-    <h1>Login</h1>    
-
+    <h1>Login</h1>
     <form:form action="/login" modelAttribute="user" method="post">
         <table class="table-borderless" align="center">
+            <tr>
+                <td colspan="2">
+                    @{
+                        switch (Model?.type) {
+                            case "success":
+                                <div class="alert alert-success" role="alert">
+                                    @Model.message
+                                </div>
+                                break;
+                            case "error":
+                                <div class="alert alert-danger" role="alert">
+                                    @Model.message
+                                </div>
+                                break;
+                        }
+                    }
+                </td>
+            </tr>
             <tr>
                 <td><label> Email: </label></td>
                 <td><input style="margin: 10px 10px 10px" type="text" name="username"/></td>
@@ -26,7 +43,7 @@
                 <td colspan="2">
                     <input style="margin: 5px 5px 5px" type="submit" class="btn btn-info" value="Sign In"/>
                     <input style="margin: 5px 5px 5px" type="button" class="btn btn-info" value="Sign Up"
-                           onClick='location.href="/registration"'/>
+                           onClick='location.href = "/registration"'/>
                 </td>
             </tr>
         </table>
