@@ -20,20 +20,14 @@ namespace TourAgency.Services {
         public List<Order> getAll() {
             return orderRepository.getAll();
         }
-
-        public Order get(object[] keyValues) {
-            Order order = orderRepository.get(keyValues);
-            if (order == null) {
-                //TODO
-                throw new Exception("Order not found");
-            }
-
-            return order;
+        
+        public Order findById(long id) {
+            return orderRepository.findById(id);
         }
-
+        
         public Order create(Order newOrder) {
             verify(newOrder);
-            newOrder.orderDate = DateTime.Now.ToBinary();
+//            newOrder.orderDate = DateTime.Now.ToBinary();
             newOrder.finalPrice = countPrice(newOrder);
             return orderRepository.create(newOrder);
         }

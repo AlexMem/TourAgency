@@ -9,6 +9,10 @@ namespace TourAgency.Services {
             this.roleRepository = roleRepository;
         }
 
+        public Role findById(long id) {
+            return roleRepository.findById(id);
+        }
+
         public Role findByName(string name) {
             return roleRepository.getAll().Find(role => role.name.Equals(name));
         }

@@ -20,22 +20,30 @@ namespace TourAgency.Services {
             this.roleService = roleService;
         }
 
+        public User authenticate(User user) {
+            User foundUser = userRepository.findByEmail(user.email);
+            if (foundUser != null) {
+//                if (!foundUser.password.Equals(encodePassword(user.password))) {
+                if (!foundUser.password.Equals(user.password)) {
+                    throw new Exception("Email and password combination doesn't match");
+                }
+            } else {
+                throw new Exception("User with such email not found");
+            }
+
+            return foundUser;
+        }
+
         public List<User> getAll() {
             return userRepository.getAll();
         }
 
-        public User get(object[] keyValues) {
-            User user = userRepository.get(keyValues);
-            if (user == null) {
-                //TODO
-                throw new Exception("User not found");
-            }
-
-            return user;
+        public User findById(long id) {
+            return userRepository.findById(id);
         }
 
         public User createUser(User newUser) {
-            newUser.role = roleService.findByName("user");
+            newUser.role = roleService.findByName("customer");
             return create(newUser);
         }
 
@@ -51,14 +59,13 @@ namespace TourAgency.Services {
 
         public User create(User newUser) {
             verify(newUser);
-            newUser.password = Encoding.Unicode.GetString(SHA512.Create()
-                                                                .ComputeHash(Encoding.Unicode.GetBytes(newUser.password)));
+//            newUser.password = encodePassword(newUser.password);
             
             return userRepository.create(newUser);
         }
 
         public User update(User user) {
-//            verify(user);
+            verify(user);
             return userRepository.update(user);
         }
 
@@ -106,6 +113,11 @@ namespace TourAgency.Services {
                     throw new Exception("This email is registered already");
                 }
             });
+        }
+
+        private string encodePassword(string password) {
+            return Encoding.Unicode.GetString(MD5.Create()
+                                                 .ComputeHash(Encoding.Unicode.GetBytes(password)));
         }
     }
 }

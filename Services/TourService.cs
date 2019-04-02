@@ -15,14 +15,8 @@ namespace TourAgency.Services {
             return tourRepository.getAll();
         }
 
-        public Tour get(object[] keyValues) {
-            Tour tour = tourRepository.get(keyValues);
-            if (tour == null) {
-                //TODO
-                throw new Exception("Tour not found");
-            }
-
-            return tour;
+        public Tour findById(long id) {
+            return tourRepository.findById(id);
         }
 
         public Tour create(Tour newTour) {

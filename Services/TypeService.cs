@@ -9,6 +9,10 @@ namespace TourAgency.Services {
             this.typeRepository = typeRepository;
         }
         
+        public Type findById(long id) {
+            return typeRepository.findById(id);
+        }
+
         public Type findByName(string name) {
             return typeRepository.getAll().Find(role => role.name.Equals(name));
         }

@@ -21,7 +21,7 @@ namespace TourAgency.Controllers {
 
         [HttpGet("{id}")][Authorize(Roles = "admin, agent")]
         public User getUser(int id) {
-            return userService.get(new object[]{id});
+            return userService.findById(id);
         }
 
         [HttpPost][Authorize(Roles = "admin")]

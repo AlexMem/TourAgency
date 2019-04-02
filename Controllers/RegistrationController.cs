@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using TourAgency.Models;
 using TourAgency.Services;
 using TourAgency.StaticClasses;
-using TourAgency.ViewComponents;
 
 namespace TourAgency.Controllers {
     [Route("/registration")]
