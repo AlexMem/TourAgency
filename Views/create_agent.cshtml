@@ -1,0 +1,50 @@
+@*<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@page contentType="text/html;charset=UTF-8" %>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Agent creation</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container-fluid" style="margin: 5px 5px 5px" align="center">
+        <h1>Agent creation</h1>
+        <span  style="margin: 5px 5px 5px" style="color:crimson">
+        <%
+            if(request.getAttribute("errorMessage") != null){
+                out.println(request.getAttribute("errorMessage"));
+            }
+            out.println("<br>");
+        %>
+        </span>
+        <%--@elvariable id="user" type="com.epam.studentproject.entity.User"--%>
+        <form:form action="/create_agent" modelAttribute="user" method="post">
+        <table class="table-borderless">
+            <tr>
+                <td><label style="margin: 5px 5px 5px" > First Name: </label></td>
+                <td><input style="margin: 5px 5px 5px" type="text" name="firstName"/></td>
+            </tr>
+            <tr>
+                <td><label style="margin: 5px 5px 5px" > Last Name: </label></td>
+                <td><input style="margin: 5px 5px 5px" type="text" name="lastName"/></td>
+            </tr>
+            <tr>
+                <td><label style="margin: 5px 5px 5px" > Email: </label></td>
+                <td><input style="margin: 5px 5px 5px" type="text" name="email"/></td>
+            </tr>
+            <tr>
+                <td><label style="margin: 5px 5px 5px" > Password: </label></td>
+                <td><input style="margin: 5px 5px 5px" type="password" name="password" required/></td>
+            </tr>
+            <tr>
+                <td><label style="margin: 5px 5px 5px" > telephone: </label></td>
+                <td><input style="margin: 5px 5px 5px" type="text" name="telephone"/></td>
+            </tr>
+            <tr>
+                <td><input style="margin: 5px 5px 5px" type="submit" class="btn btn-info" value="Create"/></td>
+                <td><input style="margin: 5px 5px 5px" type="button" class="btn btn-info" value="Cancel" onclick='location.href="/users"'/></td>
+            </tr>
+        </form:form>
+    </div>
+</body>
+</html>*@

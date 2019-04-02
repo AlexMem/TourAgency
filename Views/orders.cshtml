@@ -1,0 +1,104 @@
+@*<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ page import="com.epam.studentproject.dto.OrderDto" %>
+<%@ page import="com.epam.studentproject.entity.User" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Objects" %>
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Orders</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+</head>
+<body>
+
+<hr/>
+<div class="container-fluid" style="margin: 5px 5px 5px">
+    <form:form action="/logout" method="post">
+        <input type="button" class="btn btn-info" value="<spring:message code="lang.back_to_tours"/>"
+               onclick="location.href='/active_tours'">
+        <input type="submit" class="btn btn-info" value="<spring:message code="lang.log_out"/>" align="right">
+    </form:form>
+    <hr/>
+    <h1><spring:message code="lang.all_orders"/>:</h1>
+    <%
+        String userEmail = request.getRemoteUser();
+        List<User> users = new ArrayList<>();
+        User user = new User();
+        if (!Objects.isNull(request.getAttribute("users"))) {
+            users = (List<User>) request.getAttribute("users");
+            for (User curUser : users) {
+                if (curUser.getEmail().equals(userEmail)) {
+                    user = curUser;
+                    break;
+                }
+            }
+        }
+    %>
+
+    <%
+
+        List<OrderDto> orders = null;
+        if (!Objects.isNull(request.getAttribute("orders"))) {
+            orders = (List<OrderDto>) request.getAttribute("orders");
+        }
+
+        if (Objects.isNull(orders) || orders.isEmpty()) {
+    %>
+    <spring:message code="lang.no_orders_yet"/>
+    <%
+    } else {
+        out.println("<table class=\"table table-striped table-bordered table-info\">");
+        out.println("<tr>");
+        out.println("<td>");%><spring:message code="lang.buyer_info"/><%
+    out.println("</td>");
+    out.println("<td>");
+%><spring:message code="lang.agent_info"/><%
+    out.println("</td>");
+    out.println("<td>");
+%><spring:message code="lang.order_date"/><%
+    out.println("</td>");
+    out.println("<td>");
+%><spring:message code="lang.tours_quantity"/><%
+    out.println("</td>");
+    out.println("<td>");
+%><spring:message code="lang.place"/><%
+    out.println("</td>");
+    out.println("<td>");
+%><spring:message code="lang.tour_type"/><%
+    out.println("</td>");
+    out.println("<td>");
+%><spring:message code="lang.price"/><%
+    out.println("</td>");
+    out.println("</td>");
+    for (OrderDto order : orders) {
+        out.println("<tr>");
+        out.println("<td>" + order.getCustomerFirstName() + " " + order.getCustomerLastName() + "</td>");
+        out.println("<td>" + order.getAgentFirstName() + " " + order.getAgentLastName() + "</td>");
+        out.println("<td>" + order.getDate() + "</td>");
+        out.println("<td>" + order.getAmountOfPeople() + "</td>");
+        out.println("<td>" + order.getTourPlace() + "</td>");
+        out.println("<td>" + order.getTourTypeName() + "</td>");
+        out.println("<td>" + order.getFinalPrice() + "</td>");
+%>
+    <% if (request.getRemoteUser() == null || !user.getRole().getAuthority().equals("agent") && !user.getRole().getAuthority().equals("admin")) { %>
+    <td>
+        <%--@elvariable id="orderId" type="java.lang.Long"--%>
+        <form:form action="/delete_order" modelAttribute="orderId" method="post">
+            <input type="hidden" name="orderId" value=<%=order.getOrderId()%>>
+            <input type="submit" class="btn btn-info btn-sm" value="<spring:message code="lang.delete_order"/>">
+        </form:form>
+    </td>
+    <%
+                }
+                out.println("</tr>");
+            }
+        }
+    %>
+</div>
+
+</body>
+</html>*@

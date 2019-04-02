@@ -1,0 +1,63 @@
+@using TourAgency.Models
+@model List<Tour>
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello</title>
+    <link href="${pageContext.request.contextPath}/css/hello.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+@{
+    if (User.IsInRole("agent")) {
+        <input align="left" type="button" value="Add tour" onclick='location.href="/add_tour"'>
+    }
+
+    if (User.Identity.IsAuthenticated) {
+        <h5 align="right">Logged as " + request.getRemoteUser() + "</h5><br>
+    } else {
+        <input align="right" type="button" value="Sing In" onclick='location.href="/login"'>
+    }
+}
+
+<form:form action="/login/logout" method="get">
+    <input align="right" type="submit" value="Log Out">
+</form:form>
+<br>
+<h1 style="text-align: center">All tours:</h1>
+<table border="1" cellpadding="5" width="100%">
+<tr>
+    <td>Type</td>
+    <td>Tour from date</td>
+    <td>Duration</td>
+    <td>Is hot</td>
+    <td>Hot discount</td>
+    <td>Discount for regular buyers</td>
+    <td>Base price</td>
+    <td>Max amount of people</td>
+    <td>Place</td>
+    <td>Description</td>
+</tr>
+@{
+    foreach (Tour tour in Model) {
+        <tr>
+            <td>@tour.type.name</td>
+            <td>@tour.fromDate</td>
+            <td>@tour.duration</td>
+            <td>@tour.isHot</td>
+            <td>@tour.hotDiscount</td>
+            <td>@tour.discount</td>
+            <td>@tour.price</td>
+            <td>@tour.maxAmountOfPeople</td>
+            <td>@tour.place</td>
+            <td>@tour.description</td>
+        </tr>
+    }
+}
+</table>
+
+</body>
+</html>

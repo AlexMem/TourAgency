@@ -1,0 +1,80 @@
+@*<%@ page import="com.epam.studentproject.entity.User" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@page contentType="text/html;charset=UTF-8" %>
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My info</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+</head>
+
+<body>
+<div class="container-fluid" style="margin: 5px 5px 5px">
+    <hr/>
+    <form:form action="/logout" method="post">
+        <input type="button" class="btn btn-info" value="<spring:message code="lang.back_to_active_tours"/>" onclick="location.href='/active_tours'">
+        <input type="submit" class="btn btn-info" value="<spring:message code="lang.log_out"/>" align="right">
+    </form:form>
+    <hr/>
+<br>
+    <div align="center">
+    <%User user = (User) request.getAttribute("my_info");%>
+        <table class="table table-hover" align="center">
+            <tr>
+                <td><spring:message code="lang.first_name"/>: </td>
+                <td><%=user.getFirstName()%></td>
+            </tr>
+            <tr>
+                <td><spring:message code="lang.last_name"/>: </td>
+                <td><%=user.getLastName()%></td>
+            </tr>
+            <tr>
+                <td><spring:message code="lang.role"/>: </td>
+                <td><%=user.getRole().getAuthority()%></td>
+            </tr>
+        <%if(user.getRole().getAuthority().equals("customer")) {%>
+            <tr>
+                <td><spring:message code="lang.you_are"/> <%=!user.isRegular()?"not":""%> <spring:message code="lang.regular_cusomer"/></td>
+                <td></td>
+            </tr>
+        <%}%>
+            <tr>
+                <td><spring:message code="lang.email"/>: </td>
+                <td><%=user.getEmail()%></td>
+            </tr>
+            <tr>
+                <td><spring:message code="lang.telephone"/>: </td>
+                <td><%=user.getTelephone()%></td>
+            </tr>
+        </table>
+        <input type="button" class="btn btn-info" value="<spring:message code="lang.change_info"/>" onclick="location.href='/my_info_change'" align="center">
+    <div>
+        <br>
+        <label> <spring:message code="lang.you_can_change_password_here"/>: </label><br>
+        <div class="container">
+            <%
+                if(request.getAttribute("successfulMessage") != null) {
+                    out.println("<p class=\"text-success\">" + request.getAttribute("successfulMessage") + "</p>");
+                }
+                else {
+                    if(request.getAttribute("errorMessage") != null) {
+                        out.println("<p class=\"text-danger\">" + request.getAttribute("errorMessage") + "</p>");
+                    }
+                }
+            %>
+            <%--@elvariable id="new_password" type="java.lang.String"--%>
+            <%--@elvariable id="user_id" type="java.lang.Long"--%>
+            <form:form action="/change_password" modelAttribute="new_password" method="post">
+                <input type="hidden" name="user_id" value=<%=user.getUserId()%>>
+                <label> <spring:message code="lang.new_password"/> <input type="password" name="new_password"></label>
+                <input type="submit" class="btn btn-info btn-sm" value="<spring:message code="lang.change_password"/>">
+            </form:form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>*@

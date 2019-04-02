@@ -1,0 +1,61 @@
+@*@model User
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Changing user info</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container-fluid" style="margin: 5px 5px 5px" align="center">
+    <span style="margin: 10px 10px 10px" style="color:crimson">
+    
+    </span>
+
+<%User oldUserInfo = (User) request.getAttribute("user_old_info");%>
+
+<form:form action="/user_info_change" modelAttribute="user" method="POST">
+    <table class="table table-hover" align="center">
+        <tr>
+            <td>First name: </td>
+            <td><input type="text" value=<%=oldUserInfo.getFirstName()%> name="firstName"></td>
+        </tr>
+        <tr>
+            <td>Last name: </td>
+            <td><input type="text" value=<%=oldUserInfo.getLastName()%> name="lastName"></td>
+        </tr>
+        <tr>
+            <td>Role: </td>
+            <td><%=oldUserInfo.getRole().getAuthority()%></td>
+        </tr>
+        <%if(oldUserInfo.getRole().getAuthority().equals("customer")) {%>
+        <tr>
+            <td>You are <%=!oldUserInfo.isRegular()?"not":""%> regular customer</td>
+            <td></td>
+        </tr>
+        <%}%>
+        <tr>
+            <td>Email: </td>
+            <td><%=oldUserInfo.getEmail()%></td>
+        </tr>
+        <tr>
+            <td>Telephone: </td>
+            <td><input type="text" value=<%=oldUserInfo.getTelephone()%> name="telephone"></td>
+        </tr>
+    </table>
+
+    <input type="hidden" name="userId" value=<%=oldUserInfo.getUserId()%>>
+    <input style="margin: 5px 5px 5px" type="submit" class="btn btn-info" value="Save">
+    <%--@elvariable id="userId" type="java.lang.Long"--%>
+    <form:form action="/user_info" modelAttribute="userId" method="post">
+        <input type="hidden" name="userId" value=<%=oldUserInfo.getUserId()%>>
+        <input type="submit" class="btn btn-info" value="Cancel">
+    </form:form>
+</form:form>
+</div>
+
+</body>
+</html>*@

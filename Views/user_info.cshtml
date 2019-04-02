@@ -1,0 +1,53 @@
+@model TourAgency.Models.User
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User info</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container-fluid">
+    <hr/>
+        <input type="button" class="btn btn-info" style="margin: 5px 5px 5px" value="Back to all users" onclick="location.href='/users'">
+    <hr/>
+    <div align="center">
+        <table class="table table-hover" align="center">
+            <tr>
+                <td>First name: </td>
+                <td>@Model.firstName</td>
+            </tr>
+            <tr>
+                <td>Last name: </td>
+                <td>@Model.lastName</td>
+            </tr>
+            <tr>
+                <td>Role: </td>
+                <td>@Model.role.name</td>
+            </tr>
+            @if(Model.role.name.Equals("customer")) {
+            <tr>
+                <td colspan="2">You are @{ Html.DisplayText(Model.isRegular ? "" : "not"); } regular customer</td>
+            </tr>
+            }
+            <tr>
+                <td>Email: </td>
+                <td>@Model.email</td>
+            </tr>
+            <tr>
+                <td>Telephone: </td>
+                <td>@Model.telephone</td>
+            </tr>
+        </table>
+
+    <form:form action="/user_info_change" modelAttribute="userId" method="get">
+        <input type="hidden" name="userId" value="@Model.userId">
+        <input type="submit" class="btn btn-info" value="Change info" align="center">
+    </form:form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,64 @@
+@*<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page import="com.epam.studentproject.entity.Tour" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Objects" %>
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All inactive tours</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+</head>
+
+<body>
+<hr/>
+<div class="container-fluid" style="margin: 5px 5px 5px">
+    <form:form action="/logout" method="post">
+        <input type="button" class="btn btn-info" value="Back to inactive tours" onclick='location.href="/active_tours"'>
+        <input type="submit" class="btn btn-info" value="Log Out">
+    </form:form>
+<hr/>
+<br>
+
+<h1>All inactive tours:</h1>
+<%
+
+    List<Tour> tours = null;
+    if (!Objects.isNull(request.getAttribute("inactive_tours"))) {
+        tours = (List<Tour>) request.getAttribute("inactive_tours");
+    }
+    if (Objects.isNull(tours) || tours.isEmpty()) {
+        out.print("No tours yet");
+    } else {
+        out.println("<table class=\"table table-striped table-bordered table-info\">");
+        out.println("<tr>");
+        out.println("<td>Type</td>");
+        out.println("<td>Tour from date</td>");
+        out.println("<td>Duration</td>");
+        out.println("<td>Hot discount</td>");
+        out.println("<td>Discount for regular buyers</td>");
+        out.println("<td>Base price</td>");
+        out.println("<td>Max amount of people</td>");
+        out.println("<td>Place</td>");
+        out.println("<td>Description</td>");
+        out.println("</td>");
+        for (Tour tour : tours) {
+            out.println("<tr>");
+            out.println("<td>" + tour.getType().getName() + "</td>");
+            out.println("<td>" + tour.getFromDate() + "</td>");
+            out.println("<td>" + tour.getDuration() + "</td>");
+            out.println("<td>" + tour.getHotDiscount() + "</td>");
+            out.println("<td>" + tour.getDiscount() + "</td>");
+            out.println("<td>" + tour.getPrice() + "</td>");
+            out.println("<td>" + tour.getMaxAmountOfPeople() + "</td>");
+            out.println("<td>" + tour.getPlace() + "</td>");
+            out.println("<td>" + tour.getDescription() + "</td>");
+            out.println("</tr>");
+        }
+    }
+%>
+</div>
+
+</body>
+</html>*@

@@ -1,0 +1,87 @@
+@using TourAgency.Models
+@model List<Tour>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Active tours</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="btn-group" style="margin: 5px 5px 5px">
+        <form:form action="/customers_orders" modelAttribute="customerId" method="post">
+            <input type="submit" class="btn btn-info" value="All_orders">
+        </form:form>
+        
+    @{
+        if (User.IsInRole("agent")) {
+            <input type="button" class="btn btn-info" value="Add tour" onclick='location.href="/addTour"'>
+            <input type="button" class="btn btn-info" value="My tours" onclick='location.href = "/allAgentsTours"'>
+            <input type="button" class="btn btn-info" value="My orders" onclick='location.href = "/agentsOrders"'>
+        }
+        
+        if (User.IsInRole("admin")) {
+            <input type="button" class="btn btn-info" value="All inactive tours" onclick='location.href="/inactiveTours"'>
+            <input type="button" class="btn btn-info" value="All users" onclick='location.href = "/allUsers"'>
+            <input type="button" class="btn btn-info" value="All orders" onclick='location.href = "/allOrders"'>
+        }
+    }
+    </div>
+
+    <div class="btn-group" style="margin: 5px 5px 5px">
+    @{
+        if (!User.Identity.IsAuthenticated) {
+            <input type="button" class="btn btn-info" value="Sign In" onclick='location.href = "/login"'>
+        } else {
+            <input type="button" class="btn btn-info" value="My info" onclick='location.href = "/myInfo"'>
+            <input type="button" class="btn btn-info" value="Logout" onclick='location.href = "/login/logout"'>
+        }
+    }
+    </div>
+    <hr/>
+
+    <div class="btn-group" style="margin: 5px 5px 5px">
+        <input type="button" class="btn btn-info" value="Active tours" onclick='location.href = "/active_tours"'>
+        <input type="button" class="btn btn-info" value="Hot tours" onclick='location.href = "/active_tours?hot=1"'>
+    </div>
+    <br>
+
+    <h1>Active tours</h1>
+    <table border="1" cellpadding="5" width="100%">
+        <tr>
+            <td>Type</td>
+            <td>Tour from date</td>
+            <td>Duration</td>
+            <td>Is hot</td>
+            <td>Hot discount</td>
+            <td>Discount for regular buyers</td>
+            <td>Base price</td>
+            <td>Max amount of people</td>
+            <td>Place</td>
+            <td>Description</td>
+        </tr>
+        @{
+            foreach (Tour tour in Model) {
+                <tr>
+                    <td>@tour.type.name</td>
+                    <td>@tour.fromDate</td>
+                    <td>@tour.duration</td>
+                    <td>@tour.isHot</td>
+                    <td>@tour.hotDiscount</td>
+                    <td>@tour.discount</td>
+                    <td>@tour.price</td>
+                    <td>@tour.maxAmountOfPeople</td>
+                    <td>@tour.place</td>
+                    <td>@tour.description</td>
+                    <td><input type="button" class="btn btn-info" value="Buy" onclick='location.href = "/createOrder?tourId=" + @tour.tourId'/></td>
+                </tr>
+            }
+        }
+    </table>
+</div>
+
+</body>
+</html>

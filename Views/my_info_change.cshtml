@@ -1,0 +1,67 @@
+@*<%@ page import="com.epam.studentproject.entity.User" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@page contentType="text/html;charset=UTF-8" %>
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><spring:message code="lang.change_info"/></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+</head>
+
+<body>
+<div class="container-fluid" style="margin: 5px 5px 5px">
+    <%
+        if (request.getAttribute("errorMessage") != null) {
+            out.println(request.getAttribute("errorMessage"));
+        }
+        out.println("<br>");
+    %>
+
+    <%--@elvariable id="user" type="com.epam.studentproject.entity.User"--%>
+    <div align="center">
+        <form:form action="/my_info_change" modelAttribute="user" method="POST">
+            <%User oldUserInfo = (User) request.getAttribute("my_old_info");%>
+            <table class="table table-hover">
+                <tr>
+                    <td><spring:message code="lang.first_name"/>:</td>
+                    <td><input type="text" value=<%=oldUserInfo.getFirstName()%> name="firstName"></td>
+                </tr>
+                <tr>
+                    <td><spring:message code="lang.last_name"/></td>
+                    <td><input type="text" value=<%=oldUserInfo.getLastName()%> name="lastName"></td>
+                </tr>
+                <tr>
+                    <td><spring:message code="lang.role"/>:</td>
+                    <td><%=oldUserInfo.getRole().getAuthority()%>
+                    </td>
+                </tr>
+                <%if (oldUserInfo.getRole().getAuthority().equals("customer")) {%>
+                <tr>
+                    <td><spring:message code="lang.you_are"/> <%=!oldUserInfo.isRegular() ? "not" : ""%> <spring:message
+                            code="lang.regular_cusomer"/></td>
+                    <td></td>
+                </tr>
+                <%}%>
+                <tr>
+                    <td><spring:message code="lang.email"/>:</td>
+                    <td><%=oldUserInfo.getEmail()%>
+                    </td>
+                </tr>
+                <tr>
+                    <td><spring:message code="lang.telephone"/>:</td>
+                    <td><input type="text" value=<%=oldUserInfo.getTelephone()%> name="telephone"></td>
+                </tr>
+            </table>
+            <input style="margin: 5px 5px 5px" type="submit" class="btn btn-info"
+                   value="<spring:message code="lang.save"/>">
+            <input style="margin: 5px 5px 5px" type="button" class="btn btn-info"
+                   value="<spring:message code="lang.cancel"/>" onclick='location.href="/my_info"'>
+        </form:form>
+    </div>
+</div>
+
+</body>
+</html>*@
