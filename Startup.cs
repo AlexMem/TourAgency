@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -22,11 +21,11 @@ namespace TourAgency {
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             
-            using (var dbContext = new TourAgencyDbContext()){
+            Configuration = builder.Build();
+            
+            using (var dbContext = new TourAgencyDbContext(Configuration["DbConnection:connectionString"])){
                 dbContext.Database.EnsureCreated();
             }
-
-            Configuration = builder.Build();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.

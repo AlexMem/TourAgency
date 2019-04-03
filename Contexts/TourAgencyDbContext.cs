@@ -3,14 +3,23 @@ using TourAgency.Models;
 
 namespace TourAgency.Contexts {
     public class TourAgencyDbContext : DbContext {
+        private static string _connectionString;
         public DbSet<Order> orders { get; set; }
         public DbSet<Role> roles { get; set; }
         public DbSet<Tour> tours { get; set; }
         public DbSet<Type> types { get; set; }
         public DbSet<User> users { get; set; }
 
+        public TourAgencyDbContext() {}
+        
+        public TourAgencyDbContext(string connectionString) {
+            if (_connectionString == null) {
+                _connectionString = connectionString;
+            }
+        }
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
-            optionsBuilder.UseMySQL("server=192.168.99.100;database=tourAgency;user=root;password=admin");
+            optionsBuilder.UseMySQL(_connectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
