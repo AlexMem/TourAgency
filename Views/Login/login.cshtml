@@ -12,7 +12,6 @@
 <div class="container-fluid" style="text-align: center" align="center">
     <h1>Login</h1>
     <p>@User.Identity.Name</p>
-    <p>@User.Identity.IsAuthenticated</p>
     @using(Html.BeginForm("authentication", "Login", FormMethod.Post)){
         <table class="table-borderless" align="center">
             <tr>

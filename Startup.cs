@@ -45,10 +45,11 @@ namespace TourAgency {
                     .AddScoped<TypeService>()
                     .AddScoped<UserService>();
                     
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
-                options => {
-                    options.LoginPath = new PathString("/login");
-                });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(
+                        options => {
+                            options.LoginPath = new PathString("/login");
+                        });
             
             services.AddMvc();
         }

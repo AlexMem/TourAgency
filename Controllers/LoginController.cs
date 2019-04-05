@@ -49,9 +49,10 @@ namespace TourAgency.Controllers {
 
         private async Task authenticate(string username, string role) {
             var claims = new List<Claim> {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, username)
+                new Claim(ClaimTypes.Name, username),
+                new Claim(ClaimTypes.Role, role)
             };
-            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, role);
+            ClaimsIdentity id = new ClaimsIdentity(claims,"ApplicationCookie");
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
     }
