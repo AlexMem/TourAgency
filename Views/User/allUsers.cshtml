@@ -1,0 +1,74 @@
+@using TourAgency.Models
+@model List<TourAgency.Models.User>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All users</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container-fluid">
+    <hr/>
+    <div class="row justify-content-between" style="margin: 5px 5px 5px">
+        <div class="col">
+            <input type="button" class="btn btn-info" value="Back to active tours" onclick='location.href = "/tours"'>
+            <input type="button" class="btn btn-info" value="Create agent" onclick='location.href = "/users/createAgent"'>
+        </div>
+        <div class="btn-group">
+            <input type="button" class="btn btn-outline-info disabled" aria-disabled="true" value="Logged as @User.Identity.Name">
+            <input type="submit" class="btn btn-info" value="Logout" align="center" onclick="location.href = '/logout'">
+        </div>
+    </div>
+    <hr/>
+    <br>
+
+    <h1 style="text-align: center">User list:</h1>
+    <table class="table table-sm table-striped table-bordered table-info">
+        <thead>
+            <th>User ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Role</th>
+            <th>Email</th>
+            <th>Telephone</th>
+            <th>Is Regular</th>
+        </thead>
+        @{
+            if (ViewContext.ViewData.ContainsKey("message")) {
+                <tr>
+                    <td colspan="2">
+                        <div class="alert alert-success" role="alert">
+                            @ViewContext.ViewData.Eval("message")
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+        @{
+            foreach (User user in Model) {
+                <tr>
+                    <td>@user.userId</td>
+                    <td>@user.firstName</td>
+                    <td>@user.lastName</td>
+                    <td>@user.role.name</td>
+                    <td>@user.email</td>
+                    <td>@user.telephone</td>
+                    <td>@user.isRegular</td>
+                    <td>
+                    @if (!User.Identity.Name.Equals(user.email)) {
+                        using (Html.BeginForm("deleteUser", "User", FormMethod.Post)) {
+                             <input type="hidden" name="userId" value=@user.userId>
+                             <input type="submit" class="btn btn-sm btn-info" value="delete">
+                         }
+                    }
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+</div>
+
+</body>
+</html>

@@ -42,6 +42,10 @@ namespace TourAgency.Services {
             return userRepository.findById(id);
         }
 
+        public User findByEmail(string email) {
+            return userRepository.findByEmail(email);
+        }
+
         public User createUser(User newUser) {
             newUser.role = roleService.findByName("customer");
             return create(newUser);
@@ -59,13 +63,13 @@ namespace TourAgency.Services {
 
         public User create(User newUser) {
             verify(newUser);
-//            newUser.password = encodePassword(newUser.password);
-            
+            newUser.password = encodePassword(newUser.password);
             return userRepository.create(newUser);
         }
 
         public User update(User user) {
             verify(user);
+            user.password = encodePassword(user.password);
             return userRepository.update(user);
         }
 
@@ -92,6 +96,7 @@ namespace TourAgency.Services {
                 throw new Exception("Create password longer than 4 characters");
             }
         }
+
         private void telephoneValidation(string telephone) {
             if (string.IsNullOrEmpty(telephone)) {
                 throw new Exception("Input your telephone");
@@ -100,6 +105,7 @@ namespace TourAgency.Services {
                 throw new Exception("Incorrect telephone number");
             }
         }
+
         private void emailValidation(User user) {
             if (string.IsNullOrEmpty(user.email)) {
                 throw new Exception("Input your email");

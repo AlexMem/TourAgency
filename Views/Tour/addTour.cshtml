@@ -1,0 +1,90 @@
+@using TourAgency.Models
+@using Type = TourAgency.Models.Type
+@model TourAgency.Models.Tour
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tour add</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+</head>
+
+<body>
+
+<div class="container-fluid" align="center">
+    <div class="row align-items-center" style="height: 100vh">
+        <div class="col">
+            <h1>Tour add</h1>
+            @using (Html.BeginForm("addTour", "Tour", FormMethod.Post)) {
+                <table class="table-borderless">
+                    <tr>
+                        <td><label style="margin: 5px 5px 5px">Type*:</label></td>
+                        <td>
+                            @{
+                                List<SelectListItem> selectList = new List<SelectListItem>();
+                                foreach (Type type in (List<Type>) ViewData.Eval("types")) {
+                                    selectList.Add(new SelectListItem(type.name, type.name));
+                                }
+                            }
+                            @Html.ListBoxFor(t => t.type, selectList)
+                            @* <select style="margin: 5px 5px 5px" name="type"> *@
+                            @*     <option>Empty</option> *@
+                            @* </select> *@
+                        </td>
+                    </tr>
+        
+                    <tr>
+                        <td><label style="margin: 5px 5px 5px">Tour start date</label></td>
+                        <td><input style="margin: 5px 5px 5px" type="date" min="0" name="fromDate" required></td>
+                    </tr>
+        
+                    <tr>
+                        <td><label style="margin: 5px 5px 5px">Tour duration (days)</label></td>
+                        <td><input style="margin: 5px 5px 5px" type="number" name="duration" required></td>
+                    </tr>
+        
+                    <tr>
+                        <td><label style="margin: 5px 5px 5px">Is hot</label></td>
+                        <td><input style="margin: 5px 5px 5px" type="checkbox" name="isHot" value="true"></td>
+                    </tr>
+        
+                    <tr>
+                        <td><label style="margin: 5px 5px 5px">Hot discount</label></td>
+                        <td><input style="margin: 5px 5px 5px" type="number" name="hotDiscount" value="0" required></td>
+                    </tr>
+        
+                    <tr>
+                        <td><label style="margin: 5px 5px 5px">Discount for regular customers</label></td>
+                        <td><input style="margin: 5px 5px 5px" type="number" name="discount" value="0" required></td>
+                    </tr>
+        
+                    <tr>
+                        <td><label style="margin: 5px 5px 5px">Base price</label></td>
+                        <td><input style="margin: 5px 5px 5px" type="number" name="price" required></td>
+                    </tr>
+        
+                    <tr>
+                        <td><label style="margin: 5px 5px 5px">Quantity of tours</label></td>
+                        <td><input style="margin: 5px 5px 5px" type="number" name="maxAmountOfPeople" required></td>
+                    </tr>
+        
+                    <tr>
+                        <td><label style="margin: 5px 5px 5px">Place</label></td>
+                        <td><input style="margin: 5px 5px 5px" type="text" name="place" required></td>
+                    </tr>
+        
+                    <tr>
+                        <td><label style="margin: 5px 5px 5px">Description</label></td>
+                        <td><input style="margin: 5px 5px 5px" type="text" name="description"></td>
+                    </tr>
+                </table>
+                <input style="margin: 5px 5px 5px" type="submit" class="btn btn-info" value="Add tour">
+                <input style="margin: 5px 5px 5px" type="button" class="btn btn-info" value="Cancel" onclick='location.href = "/tours"'>
+            }
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,86 @@
+@model TourAgency.Models.User
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My info</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+</head>
+
+<body>
+<div class="container-fluid">
+    <hr/>
+    <div class="row justify-content-between" style="margin: 5px 5px 5px">
+        <div class="col">
+            <input type="button" class="btn btn-info" value="Back to active tours" onclick='location.href = "/tours"'>
+        </div>
+        <div class="btn-group" align="right">
+            <input type="button" class="btn btn-outline-info disabled" aria-disabled="true" value="Logged as @User.Identity.Name">
+            <input type="button" class="btn btn-info" value="Logout" align="right" onclick='location.href = "/logout"'>
+        </div>
+    </div>
+    <hr/>
+    <br>
+    <div align="center">
+        <table class="table table-hover" align="center">
+            <tr>
+                <td align="center">First name</td>
+                <td>@Model.firstName</td>
+            </tr>
+            <tr>
+                <td align="center">Last name</td>
+                <td>@Model.lastName</td>
+            </tr>
+            <tr>
+                <td align="center">Role</td>
+                <td>@(Model.role.name.Equals("customer")&&Model.isRegular ? "regular" : "") @Model.role.name</td>
+            </tr>
+            <tr>
+                <td align="center">Email</td>
+                <td>@Model.email</td>
+            </tr>
+            <tr>
+                <td align ="center">Telephone</td>
+                <td>@Model.telephone</td>
+            </tr>
+        </table>
+        @* <input type="button" class="btn btn-info" value="Change info" onclick='location.href="users/changeMyInfo"' align="center"> *@
+        <br>
+        <div>
+            <table class="table-borderless" align="center">
+                <tr>
+                    <td colspan="3" align="center">
+                        <label>You can change password here: </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                    @{
+                        if (ViewData.ContainsKey("message")) {
+                            <div class="alert alert-success" role="alert">
+                                @ViewData.Eval("message")
+                            </div>
+                        }
+                        if (ViewData.ContainsKey("exception")) {
+                            <div class="alert alert-danger" role="alert">
+                                @ViewData.Eval("exception")
+                            </div>
+                        }
+                    }
+                    </td>
+                </tr>
+                <tr>
+                @using (Html.BeginForm("changePassword", "User", FormMethod.Post)) {
+                    <td><label style="margin: 5px 10px 5px">New password</label></td>
+                    <td><input style="margin: 5px 10px 5px" type="password" name="newPassword"></td>
+                    <td><input style="margin: 5px 10px 5px" type="submit" class="btn btn-info btn-sm" value="Change password"></td>
+                }
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

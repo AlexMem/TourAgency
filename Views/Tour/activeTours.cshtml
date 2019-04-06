@@ -11,46 +11,49 @@
 <body>
 
 <div class="container-fluid">
-    <div class="btn-group" style="margin: 5px 5px 5px">
-        <form:form action="/customers_orders" modelAttribute="customerId" method="post">
-            <input type="submit" class="btn btn-info" value="All_orders">
-        </form:form>
-        
-    @{
-        if (User.IsInRole("agent")) {
-            <input type="button" class="btn btn-info" value="Add tour" onclick='location.href="/addTour"'>
-            <input type="button" class="btn btn-info" value="My tours" onclick='location.href = "/allAgentsTours"'>
-            <input type="button" class="btn btn-info" value="My orders" onclick='location.href = "/agentsOrders"'>
-        }
-        
-        if (User.IsInRole("admin")) {
-            <input type="button" class="btn btn-info" value="All inactive tours" onclick='location.href="/inactiveTours"'>
-            <input type="button" class="btn btn-info" value="All users" onclick='location.href = "/allUsers"'>
-            <input type="button" class="btn btn-info" value="All orders" onclick='location.href = "/allOrders"'>
-        }
-    }
-    </div>
+    <hr/>
+    <div class="row justify-content-between" style="margin: 5px 5px 5px">
+        <div class="btn-group">
+            @{
+                if (User.IsInRole("customer")) {
+                    <input type="button" class="btn btn-info" value="My orders" onclick='location.href = "/orders"'>
+                }
 
-    <div class="btn-group" style="margin: 5px 5px 5px">
-    @{
-        if (!User.Identity.IsAuthenticated) {
-            <input type="button" class="btn btn-info" value="Sign In" onclick='location.href = "/login"'>
-        } else {
-            <input type="button" class="btn btn-info" value="My info" onclick='location.href = "/myInfo"'>
-            <input type="button" class="btn btn-info" value="Logout" onclick='location.href = "/login/logout"'>
-        }
-    }
+                if (User.IsInRole("agent")) {
+                    <input type="button" class="btn btn-info" value="Add tour" onclick='location.href = "/tours/addTour"'>
+                    <input type="button" class="btn btn-info" value="My tours" onclick='location.href = "/tours/myTours"'>
+                    <input type="button" class="btn btn-info" value="My orders" onclick='location.href = "/orders"'>
+                }
+
+                if (User.IsInRole("admin")) {
+                    <input type="button" class="btn btn-info" value="All inactive tours" onclick='location.href = "/inactiveTours"'>
+                    <input type="button" class="btn btn-info" value="All users" onclick='location.href = "/users"'>
+                    <input type="button" class="btn btn-info" value="All orders" onclick='location.href = "/orders"'>
+                }
+            }
+        </div>
+        <div class="btn-group">
+            @{
+                if (!User.Identity.IsAuthenticated) {
+                    <input type="button" class="btn btn-info" value="Sign In" onclick='location.href = "/login"'>
+                } else {
+                    <input type="button" class="btn btn-outline-info disabled" aria-disabled="true" value="Logged as @User.Identity.Name">
+                    <input type="button" class="btn btn-info" value="My info" onclick='location.href = "/users/myInfo"'>
+                    <input type="button" class="btn btn-info" value="Logout" onclick='location.href = "/logout"'>
+                }
+            }
+        </div>
     </div>
     <hr/>
 
-    <div class="btn-group" style="margin: 5px 5px 5px">
-        <input type="button" class="btn btn-info" value="Active tours" onclick='location.href = "/active_tours"'>
-        <input type="button" class="btn btn-info" value="Hot tours" onclick='location.href = "/active_tours?hot=1"'>
+    <div class="row justify-content-between" style="margin: 5px 5px 5px">
+        <h1>Active tours</h1>
+        <div class="btn-group" style="margin: 5px 5px 5px">
+            <input type="button" class="btn btn-info" value="Active tours" onclick='location.href = "/tours"'>
+            <input type="button" class="btn btn-info" value="Hot tours" onclick='location.href = "/tours?isHot=true"'>
+        </div>
     </div>
-    <br>
-
-    <h1>Active tours</h1>
-    <table border="1" cellpadding="5" width="100%">
+    <table class="table table-info table-striped table-bordered" border="1" cellpadding="5" width="100%">
         <tr>
             <td>Type</td>
             <td>Tour from date</td>

@@ -19,6 +19,14 @@ namespace TourAgency.Services {
             return tourRepository.findById(id);
         }
 
+        public List<Tour> findByHot(bool isHot) {
+            return tourRepository.findByHot(isHot);
+        }
+
+        public List<Tour> findByUser(User user) {
+            return tourRepository.findByUser(user);
+        }
+        
         public Tour create(Tour newTour) {
             verify(newTour);
             if (newTour.fromDate.CompareTo(DateTime.Now.ToBinary() - 6*TimeSpan.TicksPerHour) < 0) {
@@ -39,7 +47,7 @@ namespace TourAgency.Services {
         }
 
         public void verify(Tour tour) {
-            if (tour.fromDate.CompareTo(DateTime.Now.ToBinary()) >= 0) {
+            if (tour.fromDate.CompareTo(DateTime.Now) >= 0) {
                 throw new Exception("bad time");
             }
             if (tour.duration < 0) {

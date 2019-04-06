@@ -13,40 +13,36 @@
 <div class="container-fluid">
     <hr/>
         <input type="button" class="btn btn-info" style="margin: 5px 5px 5px" value="Back to all users" onclick="location.href='/users'">
+        <div class="btn-group" align="right" style="margin: 5px 5px 5px">
+            <input type="button" class="btn btn-outline-info disabled" aria-disabled="true" value="Logged as @User.Identity.Name">
+            <input type="button" class="btn btn-info" value="Logout" align="right" onclick='location.href="/logout"'>
+        </div>
     <hr/>
     <div align="center">
         <table class="table table-hover" align="center">
             <tr>
-                <td>First name: </td>
+                <td align="center">First name</td>
                 <td>@Model.firstName</td>
             </tr>
             <tr>
-                <td>Last name: </td>
+                <td align="center">Last name</td>
                 <td>@Model.lastName</td>
             </tr>
             <tr>
-                <td>Role: </td>
-                <td>@Model.role.name</td>
+                <td align="center">Role</td>
+                <td>@(Model.role.name.Equals("customer")&&Model.isRegular ? "regular" : "") @Model.role.name</td>
             </tr>
-            @if(Model.role.name.Equals("customer")) {
             <tr>
-                <td colspan="2">You are @{ Html.DisplayText(Model.isRegular ? "" : "not"); } regular customer</td>
-            </tr>
-            }
-            <tr>
-                <td>Email: </td>
+                <td align="center">Email</td>
                 <td>@Model.email</td>
             </tr>
             <tr>
-                <td>Telephone: </td>
+                <td align ="center">Telephone</td>
                 <td>@Model.telephone</td>
             </tr>
         </table>
 
-    <form:form action="/user_info_change" modelAttribute="userId" method="get">
-        <input type="hidden" name="userId" value="@Model.userId">
-        <input type="submit" class="btn btn-info" value="Change info" align="center">
-    </form:form>
+        <input type="submit" class="btn btn-info" value="Change info" align="center" onclick='location.href="@("/users/userInfo/change?userId="+Model.userId)"'>
     </div>
 </div>
 </body>

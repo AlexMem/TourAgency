@@ -9,46 +9,50 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
 </head>
 <body>
-<div class="container-fluid" style="text-align: center" align="center">
-    <h1>Login</h1>
-    <p>@User.Identity.Name</p>
-    @using(Html.BeginForm("authentication", "Login", FormMethod.Post)){
-        <table class="table-borderless" align="center">
-            <tr>
-                <td colspan="2">
-                    @{
-                        switch (Model?.type) {
-                            case "success":
-                                <div class="alert alert-success" role="alert">
-                                    @Model.message
-                                </div>
-                                break;
-                            case "error":
-                                <div class="alert alert-danger" role="alert">
-                                    @Model.message
-                                </div>
-                                break;
-                        }
-                    }
-                </td>
-            </tr>
-            <tr>
-                <td><label> Email: </label></td>
-                <td><input style="margin: 10px 10px 10px" type="text" name="email"/></td>
-            </tr>
-            <tr>
-                <td><label> Password: </label></td>
-                <td><input style="margin: 10px 10px 10px" type="password" name="password"/></td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <input style="margin: 5px 5px 5px" type="submit" class="btn btn-info" value="Sign In"/>
-                    <input style="margin: 5px 5px 5px" type="button" class="btn btn-info" value="Sign Up"
-                           onClick='location.href = "/registration"'/>
-                </td>
-            </tr>
-        </table>
-    }
+<div class="container" align="center">
+    <div class="row align-items-center" style="height: 100vh">
+        <div class="col">
+            <h1>Login</h1>
+            <p>@User.Identity.Name</p>
+            @using (Html.BeginForm("authentication", "Login", FormMethod.Post)) {
+                <table class="table-borderless" align="center">
+                    <tr>
+                        <td colspan="2">
+                            @{
+                                switch (Model?.type) {
+                                    case "success":
+                                        <div class="alert alert-success" role="alert">
+                                            @Model.message
+                                        </div>
+                                        break;
+                                    case "error":
+                                        <div class="alert alert-danger" role="alert">
+                                            @Model.message
+                                        </div>
+                                        break;
+                                }
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label> Email: </label></td>
+                        <td><input style="margin: 10px 10px 10px" type="text" name="email"/></td>
+                    </tr>
+                    <tr>
+                        <td><label> Password: </label></td>
+                        <td><input style="margin: 10px 10px 10px" type="password" name="password"/></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <input style="margin: 5px 5px 5px" type="submit" class="btn btn-info" value="Sign In"/>
+                            <input style="margin: 5px 5px 5px" type="button" class="btn btn-info" value="Sign Up"
+                                   onClick='location.href = "/registration"'/>
+                        </td>
+                    </tr>
+                </table>
+            }
+        </div>
+    </div>
 </div>
 </body>
 </html>

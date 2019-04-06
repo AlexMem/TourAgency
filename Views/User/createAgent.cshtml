@@ -1,0 +1,59 @@
+@model TourAgency.Models.User
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Agent creation</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container-fluid" style="margin: 5px 5px 5px" align="center">
+        <div class="row align-items-center" style="height: 100vh">
+            <div class="col">
+                <h1>Agent creation</h1>
+                @using(Html.BeginForm("createAgent", "User", FormMethod.Post)) {
+                    <table class="table-borderless">
+                        @{
+                            if (ViewContext.ViewData.ContainsKey("exception")) {
+                                <tr>
+                                    <td colspan="2">
+                                        <div class="alert alert-danger" role="alert">
+                                            @ViewContext.ViewData.Eval("exception")
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        <tr>
+                            <td><label style="margin: 5px 5px 5px"> First Name: </label></td>
+                            <td><input style="margin: 5px 5px 5px" type="text" name="firstName"/></td>
+                        </tr>
+                        <tr>
+                            <td><label style="margin: 5px 5px 5px"> Last Name: </label></td>
+                            <td><input style="margin: 5px 5px 5px" type="text" name="lastName"/></td>
+                        </tr>
+                        <tr>
+                            <td><label style="margin: 5px 5px 5px"> Email: </label></td>
+                            <td><input style="margin: 5px 5px 5px" type="text" name="email"/></td>
+                        </tr>
+                        <tr>
+                            <td><label style="margin: 5px 5px 5px"> Password: </label></td>
+                            <td><input style="margin: 5px 5px 5px" type="password" name="password" required/></td>
+                        </tr>
+                        <tr>
+                            <td><label style="margin: 5px 5px 5px"> telephone: </label></td>
+                            <td><input style="margin: 5px 5px 5px" type="text" name="telephone"/></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="center">
+                                <input style="margin: 5px 5px 5px" type="submit" class="btn btn-info" value="Create"/>
+                                <input style="margin: 5px 5px 5px" type="button" class="btn btn-info" value="Cancel" onclick='location.href = "/users"'/>
+                            </td>
+                        </tr>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</body>
+</html>

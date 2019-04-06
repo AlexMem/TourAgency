@@ -1,0 +1,65 @@
+@using TourAgency.Models
+@model List<TourAgency.Models.Tour>
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My tours</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container-fluid">
+    <hr/>
+    <div class="row justify-content-between" style="margin: 5px 5px 5px">
+        <div class="col">
+            <input type="button" class="btn btn-info" value="Back to tours" onclick='location.href = "/tours"'>
+            <input type="button" class="btn btn-info" value="Add tour" onclick='location.href = "/tours/addTour"'>
+        </div>
+        <div class="btn-group" align="right">
+            <input type="button" class="btn btn-outline-info disabled" aria-disabled="true" value="Logged as @User.Identity.Name">
+            <input type="submit" class="btn btn-info" value="Logout" align="right" onclick='location.href = "/logout"'>
+        </div>
+    </div>
+    <hr/>
+    <h1>All my tours:</h1>
+    <table border="1" cellpadding="5" width="100%">
+        <thead>
+        <td>Type</td>
+        <td>Tour from date</td>
+        <td>Duration</td>
+        <td>Is hot</td>
+        <td>Hot discount</td>
+        <td>Discount for regular buyers</td>
+        <td>Base price</td>
+        <td>Max amount of people</td>
+        <td>Place</td>
+        <td>Description</td>
+        </thead>
+        @{
+            foreach (Tour tour in Model) {
+                <tr>
+                    <td>@tour.type.name</td>
+                    <td>@tour.fromDate</td>
+                    <td>@tour.duration</td>
+                    <td>@tour.isHot</td>
+                    <td>@tour.hotDiscount</td>
+                    <td>@tour.discount</td>
+                    <td>@tour.price</td>
+                    <td>@tour.maxAmountOfPeople</td>
+                    <td>@tour.place</td>
+                    <td>@tour.description</td>
+                    <td>
+                        @using (Html.BeginForm("changeHotActive", "Tour", FormMethod.Get)) {
+                            <input type="hidden" name="id" value=@tour.tourId>
+                            <input type="submit" class="btn btn-info btn-sm" value="Change Active/Hot">
+                        }
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+</div>
+</body>
+</html>

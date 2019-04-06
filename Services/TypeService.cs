@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TourAgency.Models;
 using TourAgency.Repositories;
 
@@ -15,6 +16,10 @@ namespace TourAgency.Services {
 
         public Type findByName(string name) {
             return typeRepository.getAll().Find(role => role.name.Equals(name));
+        }
+
+        public List<Type> getAll() {
+            return typeRepository.getAll();
         }
     }
 }

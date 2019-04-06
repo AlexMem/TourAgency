@@ -66,7 +66,6 @@ namespace TourAgency.Repositories {
         public User delete(User user) {
             EntityEntry<User> removedUser;
             using (var dbContext = new TourAgencyDbContext()) {
-                dbContext.roles.Attach(user.role);
                 removedUser = dbContext.users.Remove(user);
                 dbContext.SaveChanges();
             }

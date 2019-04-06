@@ -63,5 +63,29 @@ namespace TourAgency.Repositories {
             }
             return removedTour.Entity;
         }
+
+        public List<Tour> findByHot(bool isHot) {
+            List<Tour> tours;
+            using (var dbContext = new TourAgencyDbContext()) {
+                tours = dbContext.tours
+                                 .Include(t => t.type)
+                                 .Include(t => t.user)
+                                 .ToList();
+                tours.RemoveAll(t => t.isHot.Equals(isHot));
+            }
+            return tours;
+        }
+
+        public List<Tour> findByUser(User user) {
+            List<Tour> tours;
+            using (var dbContext = new TourAgencyDbContext()) {
+                tours = dbContext.tours
+                                 .Include(t => t.type)
+                                 .Include(t => t.user)
+                                 .ToList();
+                tours.RemoveAll(t => t.user.userId.Equals(user.userId));
+            }
+            return tours;
+        }
     }
 }

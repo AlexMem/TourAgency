@@ -60,7 +60,7 @@ namespace TourAgency {
             loggerFactory.AddProvider(new DebugLoggerProvider());
 
             app.UseAuthentication();
-            app.UseMvc().UseWelcomePage("/tours");
+            app.UseMvc();
         }
     }
 }

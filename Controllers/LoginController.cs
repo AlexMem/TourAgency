@@ -20,6 +20,9 @@ namespace TourAgency.Controllers {
         }
         
         public IActionResult login(string wat) {
+            if (User.Identity.IsAuthenticated) {
+                return Redirect("/");
+            }
             switch (wat) {
                 case Redirects.RegSuccess:
                     return View(new Message("success", "Registered successful"));
@@ -32,7 +35,7 @@ namespace TourAgency.Controllers {
         public async Task<IActionResult> logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return Redirect("/login");
+            return Redirect("/tours");
         }
         
         [HttpPost]
@@ -44,7 +47,7 @@ namespace TourAgency.Controllers {
                 return View("login", new Message("error", e.Message));
             }
 
-            return Redirect("/login");
+            return Redirect("/tours");
         }
 
         private async Task authenticate(string username, string role) {
