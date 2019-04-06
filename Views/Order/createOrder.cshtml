@@ -1,0 +1,104 @@
+@using TourAgency.Models
+@model TourAgency.Models.Order
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Buy</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+</head>
+<script>
+    function recount(amountOfPeople) {
+        var discount = document.getElementById("discount").value;
+        var price = document.getElementById("price").value;
+        var finalPrice = document.getElementById("finalPrice");
+        
+        finalPrice.value = amountOfPeople * (price * ((100 - discount) / 100));
+        finalPrice.innerHTML = amountOfPeople * (price * ((100 - discount) / 100));
+    }
+</script>
+<body>
+    <div class="container-fluid" style="text-align: center; margin: 5px 5px 5px">
+        <h1>Order details</h1>
+        @using (Html.BeginForm("createOrder", "Order", FormMethod.Post)) {
+            <div class="container">
+                <div class="container">
+                    <div class="col">
+                        <div class="row">
+                            <label>Place</label>
+                            @Model.tour.place
+                        </div>
+                        <div class="row">
+                            <label>Type</label>
+                            @Model.tour.type.name
+                        </div>
+                        <div class="row">
+                            <label>Date</label>
+                            @Model.tour.fromDate
+                        </div>
+                        <div class="row">
+                            <label>Duration (days)</label>
+                            @Model.tour.duration
+                        </div>
+                        <div class="row">
+                            <label>Price (per man)</label>
+                            <input id="price" value="@Model.tour.price">
+                        </div>
+                        <div class="row">
+                            <label>Quantity of tickets</label>
+                            @Model.tour.maxAmountOfPeople
+                        </div>
+                        @if (Model.user.isRegular || Model.tour.isHot) {
+                            Tour tour = Model.tour;
+                            User customer = Model.user;
+                            double discount = 0;
+
+                            if (customer.isRegular) {
+                                if (tour.isHot && tour.hotDiscount > tour.discount) {
+                                    discount = tour.hotDiscount;
+                                } else {
+                                    discount = tour.discount;
+                                }
+                            } else {
+                                if (Model.tour.isHot) {
+                                    discount = Model.tour.hotDiscount;
+                                }
+                            }
+                            <div class="row">
+                                <label>Discount</label>
+                                <input id="discount" value="@discount">
+                            </div>
+                        }
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <label>Description</label>
+                            @Model.tour.description
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+                <div class="container">
+                    <div class="col">
+                        <label>Amount of people: </label>
+                        <input name="amountOfPeople" type="number" min="1" max="8" step="1" value="1" oninput='recount(this.value)'/>
+                    </div>
+                    <div class="col">
+                        <label>Final price: </label>
+                        <span id="finalPrice" name="finalPrice" value="0"></span>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="col">
+                        <input type="submit" value="Buy" onclick='location.href = "/orders"'/>
+                    </div>
+                    <div class="col">
+                        <input type="button" value="Cancel" onclick='location.href = "/tours"'/>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</body>
+</html>

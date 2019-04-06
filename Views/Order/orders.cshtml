@@ -1,0 +1,80 @@
+@using TourAgency.Models
+@model List<TourAgency.Models.Order>
+<!DOCTYPE html>
+
+@{
+    string theme = User.IsInRole("customer") || User.IsInRole("agent") ? "My orders" : "All orders";
+}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>@theme</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container-fluid">
+    <hr/>
+    <div class="row justify-content-between" style="margin: 5px 5px 5px">
+        <div class="col">
+            <input type="button" class="btn btn-info" value="Back to active tours" onclick='location.href = "/tours"'>
+        @{
+            if (ViewData.ContainsKey("message")) {
+                <div class="alert alert-success" role="alert">
+                    @ViewData.Eval("message")
+                </div>
+            }
+            
+            if (ViewData.ContainsKey("exception")) {
+                <div class="alert alert-danger" role="alert">
+                    @ViewData.Eval("exception")
+                </div>
+            }
+        }
+        </div>
+        <div class="btn-group">
+            <input type="button" class="btn btn-outline-info disabled" aria-disabled="true" value="Logged as @User.Identity.Name">
+            <input type="submit" class="btn btn-info" value="Logout" align="center" onclick="location.href = '/logout'">
+        </div>
+    </div>
+    <hr/>
+    
+    <h1>@theme</h1>
+    <table class="table table-info table-striped table-bordered">
+        <thead>
+        <th>
+            <td>Place</td>
+            <td>Type</td>
+            <td>Agent</td>
+            <td>Date</td>
+            <td>Amount of people</td>
+            <td>Order date</td>
+            <td>Final price</td>
+        </th>
+        </thead>
+        <tbody>
+            @foreach (Order order in Model) {
+                <tr>
+                    <td>@order.tour.place</td>
+                    <td>@order.tour.type</td>
+                    <td>@order.tour.user.firstName @order.tour.user.lastName</td>
+                    <td>@order.tour.fromDate</td>
+                    <td>@order.amountOfPeople</td>
+                    <td>@order.orderDate</td>
+                    <td>@order.finalPrice</td>
+                    @if(User.IsInRole("customer") || User.IsInRole("admin")) {
+                    <td>
+                    @using (Html.BeginForm("deleteOrder", "Order", FormMethod.Post)) {
+                        <input type="hidden" name="orderId" value="@order.orderId">
+                        <input type="submit" class="btn btn-info btn-sm" value="reject">
+                    }
+                    </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

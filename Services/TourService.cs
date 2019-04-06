@@ -12,6 +12,8 @@ namespace TourAgency.Services {
         }
 
         public List<Tour> getAll() {
+            List<Tour> tours = tourRepository.getAll();
+            tours.ForEach(t => t.isActive = t.fromDate.CompareTo(DateTime.Now)<0); // need scheduled task
             return tourRepository.getAll();
         }
 
@@ -29,11 +31,7 @@ namespace TourAgency.Services {
         
         public Tour create(Tour newTour) {
             verify(newTour);
-            if (newTour.fromDate.CompareTo(DateTime.Now.ToBinary() - 6*TimeSpan.TicksPerHour) < 0) {
-                newTour.isActive = true;
-            } else {
-                newTour.isActive = false;
-            }
+            newTour.isActive = newTour.fromDate.CompareTo(DateTime.Now) < 0;
             return tourRepository.create(newTour);
         }
 
