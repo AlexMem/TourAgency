@@ -79,7 +79,7 @@ namespace TourAgency.Services {
 
         public void verify(User user) {
             if (string.IsNullOrEmpty(user.firstName) || string.IsNullOrEmpty(user.lastName)) {
-                throw new Exception("Input your first name and last name");
+                throw new Exception("Input first name and last name");
             }
             
             emailValidation(user);
@@ -89,7 +89,7 @@ namespace TourAgency.Services {
 
         private void passwordValidation(string password) {
             if (string.IsNullOrEmpty(password)) {
-                throw new Exception("Input your password");
+                throw new Exception("Input password");
             }
 
             if (password.Length < 5) {
@@ -99,7 +99,7 @@ namespace TourAgency.Services {
 
         private void telephoneValidation(string telephone) {
             if (string.IsNullOrEmpty(telephone)) {
-                throw new Exception("Input your telephone");
+                throw new Exception("Input telephone");
             }
             if (!TelephoneVerificationPattern.IsMatch(telephone)) {
                 throw new Exception("Incorrect telephone number");

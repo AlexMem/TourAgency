@@ -72,9 +72,17 @@
                 </tr>
                 <tr>
                 @using (Html.BeginForm("changePassword", "User", FormMethod.Post)) {
-                    <td><label style="margin: 5px 10px 5px">New password</label></td>
-                    <td><input style="margin: 5px 10px 5px" type="password" name="newPassword"></td>
-                    <td><input style="margin: 5px 10px 5px" type="submit" class="btn btn-info btn-sm" value="Change password"></td>
+                    <td colspan="3">
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">New password</span>
+                            </div>
+                            <input class="form-control" type="password" name="newPassword">
+                            <div class="input-group-append">
+                                <input type="submit" class="btn btn-info" value="Change password">
+                            </div>
+                        </div>
+                    </td>
                 }
                 </tr>
             </table>
