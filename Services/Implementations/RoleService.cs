@@ -1,11 +1,11 @@
 using TourAgency.Models;
 using TourAgency.Repositories;
 
-namespace TourAgency.Services {
-    public class RoleService {
-        private readonly RoleRepository roleRepository;
+namespace TourAgency.Services.Implementations {
+    public class RoleService : IRoleService {
+        private readonly IRoleRepository roleRepository;
 
-        public RoleService(RoleRepository roleRepository) {
+        public RoleService(IRoleRepository roleRepository) {
             this.roleRepository = roleRepository;
         }
 

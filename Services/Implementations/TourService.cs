@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using TourAgency.Models;
 using TourAgency.Repositories;
 
-namespace TourAgency.Services {
-    public class TourService {
-        private readonly TourRepository tourRepository;
+namespace TourAgency.Services.Implementations {
+    public class TourService : ITourService {
+        private readonly ITourRepository tourRepository;
 
-        public TourService(TourRepository tourRepository) {
+        public TourService(ITourRepository tourRepository) {
             this.tourRepository = tourRepository;
         }
 
         public List<Tour> getAll() {
             List<Tour> tours = tourRepository.getAll();
-            tours.ForEach(t => t.isActive = t.fromDate.CompareTo(DateTime.Now)<0); // need scheduled task
+            tours.ForEach(t => t.isActive = t.fromDate.CompareTo(DateTime.Now)>0); // need scheduled task
             return tourRepository.getAll();
         }
 
@@ -31,7 +31,7 @@ namespace TourAgency.Services {
         
         public Tour create(Tour newTour) {
             verify(newTour);
-            newTour.isActive = newTour.fromDate.CompareTo(DateTime.Now) < 0;
+            newTour.isActive = newTour.fromDate.CompareTo(DateTime.Now) > 0;
             return tourRepository.create(newTour);
         }
 
@@ -45,8 +45,8 @@ namespace TourAgency.Services {
         }
 
         public void verify(Tour tour) {
-            if (tour.fromDate.CompareTo(DateTime.Now) >= 0) {
-                throw new Exception("bad time");
+            if (tour.fromDate.CompareTo(DateTime.Now) <= 0) { // time dont forget
+                throw new Exception("bad date");
             }
             if (tour.duration < 0) {
                 throw new Exception("bad duration");

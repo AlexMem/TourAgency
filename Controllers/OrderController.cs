@@ -8,10 +8,16 @@ using TourAgency.Services;
 namespace TourAgency.Controllers {
     [Route("/orders")][Authorize(Roles = "customer, agent, admin")]
     public class OrderController : Controller {
-        private OrderService orderService;
+        private IOrderService orderService;
+        private ITourService tourService;
+        private IUserService userService;
 
-        public OrderController(OrderService orderService) {
+        public OrderController(IOrderService orderService,
+                               ITourService tourService,
+                               IUserService userService) {
             this.orderService = orderService;
+            this.tourService = tourService;
+            this.userService = userService;
         }
 
         [HttpGet]
@@ -29,12 +35,25 @@ namespace TourAgency.Controllers {
                 orders = orderService.getAll();
             }
 
+            orders?.ForEach(o => o.tour = tourService.findById((long) o.tour.tourId));
             return View(orders);
         }
 
-        [HttpPost][Authorize(Roles = "customer")]
-        public IActionResult createOrder(Order order) {
+
+        [HttpGet("/createOrder")][Authorize(Roles = "customer")]
+        public IActionResult createOrder(long tourId) {
+            Order order = new Order {
+                tour = tourService.findById(tourId),
+                user = userService.findByEmail(User.Identity.Name)
+            };
+            return View(order);
+        }
+
+        [HttpPost("/createOrder")][Authorize(Roles = "customer")]
+        public IActionResult createOrder(Order order, long tourId, long userId) {
             try {
+                order.tour = tourService.findById(tourId);
+                order.user = userService.findById(userId);
                 orderService.create(order);
                 ViewData.Add("message", "Order done");
             } catch (Exception e) {
@@ -43,7 +62,7 @@ namespace TourAgency.Controllers {
 
             return Redirect("/orders");
         }
-        
+
         [HttpPost("/orders/delete")][Authorize(Roles = "customer, admin")]
         public IActionResult deleteOrder(long orderId) {
             try {

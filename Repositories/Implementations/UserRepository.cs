@@ -2,14 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Scaffolding.Internal;
-using Remotion.Linq.Clauses;
 using TourAgency.Contexts;
 using TourAgency.Models;
 
-namespace TourAgency.Repositories {
-    public sealed class UserRepository {
-
+namespace TourAgency.Repositories.Implementations {
+    public sealed class UserRepository : IUserRepository {
         public List<User> getAll() {
             List<User> users;
             using (var dbContext = new TourAgencyDbContext()) {
@@ -41,7 +38,6 @@ namespace TourAgency.Repositories {
             }
             return user;
         }
-        
         
         public User create(User newUser) {
             EntityEntry<User> user;

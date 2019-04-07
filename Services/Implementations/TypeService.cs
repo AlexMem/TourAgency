@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using TourAgency.Models;
 using TourAgency.Repositories;
 
-namespace TourAgency.Services {
-    public class TypeService {
-        private readonly TypeRepository typeRepository;
+namespace TourAgency.Services.Implementations {
+    public class TypeService : ITypeService {
+        private readonly ITypeRepository typeRepository;
 
-        public TypeService(TypeRepository typeRepository) {
+        public TypeService(ITypeRepository typeRepository) {
             this.typeRepository = typeRepository;
         }
         

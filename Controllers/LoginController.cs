@@ -13,15 +13,15 @@ using TourAgency.StaticClasses;
 namespace TourAgency.Controllers {
     [Route("/login")]
     public class LoginController : Controller {
-        private readonly UserService userService;
+        private readonly IUserService userService;
 
-        public LoginController(UserService userService) {
+        public LoginController(IUserService userService) {
             this.userService = userService;
         }
         
         public IActionResult login(string wat) {
             if (User.Identity.IsAuthenticated) {
-                return Redirect("/");
+                return Redirect("/tours");
             }
             switch (wat) {
                 case Redirects.RegSuccess:

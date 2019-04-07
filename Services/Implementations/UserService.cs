@@ -6,16 +6,16 @@ using System.Text.RegularExpressions;
 using TourAgency.Models;
 using TourAgency.Repositories;
 
-namespace TourAgency.Services {
-    public class UserService {
+namespace TourAgency.Services.Implementations {
+    public class UserService : IUserService {
         private static readonly Regex TelephoneVerificationPattern = new Regex("^\\+?\\d{1,4}\\d{10}$");
         private static readonly Regex EmailVerificationPattern = new Regex("^\\w+.?\\w{2,49}@[a-z]+\\.[a-z]+$");
 
-        private readonly UserRepository userRepository;
-        private readonly RoleService roleService;
+        private readonly IUserRepository userRepository;
+        private readonly IRoleService roleService;
 
-        public UserService(UserRepository userRepository, 
-                           RoleService roleService) {
+        public UserService(IUserRepository userRepository, 
+                           IRoleService roleService) {
             this.userRepository = userRepository;
             this.roleService = roleService;
         }

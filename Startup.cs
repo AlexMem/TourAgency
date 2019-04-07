@@ -8,7 +8,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Debug;
 using TourAgency.Contexts;
 using TourAgency.Repositories;
+using TourAgency.Repositories.Implementations;
 using TourAgency.Services;
+using TourAgency.Services.Implementations;
 
 namespace TourAgency {
     public class Startup {
@@ -33,17 +35,17 @@ namespace TourAgency {
             // Add framework services.
             services.AddMvc();
             
-            services.AddScoped<OrderRepository>()
-                    .AddScoped<RoleRepository>()
-                    .AddScoped<TourRepository>()
-                    .AddScoped<TypeRepository>()
-                    .AddScoped<UserRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>()
+                    .AddScoped<IRoleRepository, RoleRepository>()
+                    .AddScoped<ITourRepository, TourRepository>()
+                    .AddScoped<ITypeRepository, TypeRepository>()
+                    .AddScoped<IUserRepository, UserRepository>();
 
-            services.AddScoped<OrderService>()
-                    .AddScoped<RoleService>()
-                    .AddScoped<TourService>()
-                    .AddScoped<TypeService>()
-                    .AddScoped<UserService>();
+            services.AddScoped<IOrderService, OrderService>()
+                    .AddScoped<IRoleService, RoleService>()
+                    .AddScoped<ITourService, TourService>()
+                    .AddScoped<ITypeService, TypeService>()
+                    .AddScoped<IUserService, UserService>();
                     
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie(

@@ -42,25 +42,32 @@
     <h1>@theme</h1>
     <table class="table table-info table-striped table-bordered">
         <thead>
-        <th>
-            <td>Place</td>
-            <td>Type</td>
-            <td>Agent</td>
-            <td>Date</td>
-            <td>Amount of people</td>
-            <td>Order date</td>
-            <td>Final price</td>
-        </th>
+            <th>Place</th>
+            <th>Type</th>
+            @if (User.IsInRole("agent") || User.IsInRole("admin")) {
+                <th>Customer</th>
+            }
+            @if (User.IsInRole("customer") || User.IsInRole("admin")) {
+                <th>Agent</th>
+            }
+            <th>Date</th>
+            <th>Amount of people</th>
+            <th>Order date</th>
+            <th>Final price</th>
         </thead>
-        <tbody>
             @foreach (Order order in Model) {
                 <tr>
                     <td>@order.tour.place</td>
-                    <td>@order.tour.type</td>
-                    <td>@order.tour.user.firstName @order.tour.user.lastName</td>
-                    <td>@order.tour.fromDate</td>
+                    <td>@order.tour.type.name</td>
+                    @if (User.IsInRole("agent") || User.IsInRole("admin")) {
+                        <td>@order.user.firstName @order.user.lastName</td>
+                    }
+                    @if (User.IsInRole("customer") || User.IsInRole("admin")) {
+                        <td>@order.tour.user.firstName @order.tour.user.lastName</td>
+                    }
+                    <td>@order.tour.fromDate.ToShortDateString()</td>
                     <td>@order.amountOfPeople</td>
-                    <td>@order.orderDate</td>
+                    <td>@order.orderDate.ToShortDateString()</td>
                     <td>@order.finalPrice</td>
                     @if(User.IsInRole("customer") || User.IsInRole("admin")) {
                     <td>
@@ -72,7 +79,6 @@
                     }
                 </tr>
             }
-        </tbody>
     </table>
 </div>
 

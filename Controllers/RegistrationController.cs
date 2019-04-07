@@ -1,6 +1,5 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using TourAgency.Models;
 using TourAgency.Services;
 using TourAgency.StaticClasses;
@@ -8,9 +7,9 @@ using TourAgency.StaticClasses;
 namespace TourAgency.Controllers {
     [Route("/registration")]
     public class RegistrationController : Controller {
-        private readonly UserService userService;
+        private readonly IUserService userService;
 
-        public RegistrationController(UserService userService) {
+        public RegistrationController(IUserService userService) {
             this.userService = userService;
         }
         

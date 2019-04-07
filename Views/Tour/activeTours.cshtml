@@ -54,31 +54,33 @@
     </div>
     <table class="table table-info table-striped table-bordered" border="1" cellpadding="5" width="100%">
         <tr>
-            <td>Type</td>
-            <td>Tour from date</td>
-            <td>Duration</td>
-            <td>Is hot</td>
-            <td>Hot discount</td>
-            <td>Discount for regular buyers</td>
-            <td>Base price</td>
-            <td>Max amount of people</td>
-            <td>Place</td>
-            <td>Description</td>
+            <th>Type</th>
+            <th>Tour from date</th>
+            <th>Duration</th>
+            <th>Is hot</th>
+            <th>Hot discount</th>
+            <th>Discount for regular buyers</th>
+            <th>Base price</th>
+            <th>Max amount of people</th>
+            <th>Place</th>
+            <th>Description</th>
         </tr>
         @{
             foreach (Tour tour in Model) {
                 <tr>
                     <td>@tour.type.name</td>
-                    <td>@tour.fromDate</td>
+                    <td>@tour.fromDate.ToShortDateString()</td>
                     <td>@tour.duration</td>
-                    <td>@tour.isHot</td>
+                    <td>@(tour.isHot?"Yes":"No")</td>
                     <td>@tour.hotDiscount</td>
                     <td>@tour.discount</td>
                     <td>@tour.price</td>
                     <td>@tour.maxAmountOfPeople</td>
                     <td>@tour.place</td>
                     <td>@tour.description</td>
-                    <td><input type="button" class="btn btn-info" value="Buy" onclick='location.href = "/createOrder?tourId=" + @tour.tourId'/></td>
+                    @if (User.IsInRole("customer")) {
+                        <td><input type="button" class="btn btn-info" value="Buy" onclick='location.href = "/createOrder?tourId=" + @tour.tourId'/></td>
+                    }
                 </tr>
             }
         }

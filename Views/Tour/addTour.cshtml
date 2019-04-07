@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Tour add</title>
+    <title>Tour creation</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
 </head>
 <script>
@@ -15,6 +15,7 @@
         if (hot.hidden === true) {
             document.getElementById("hotDiscount").value = 0;
         }
+//        document.getElementById("isHot").value = hot.hidden;
     }
 </script>
 <body>
@@ -53,7 +54,7 @@
                     </div>
                     <div class="input-group-append">
                         <div class="input-group-text">
-                            <input type="checkbox" name="isHot" onclick='showHideHot()'>
+                            <input type="checkbox" id="isHot" name="isHot" value="true" onclick='showHideHot()'>
                         </div>
                     </div>
                 </div>

@@ -4,9 +4,8 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using TourAgency.Contexts;
 using TourAgency.Models;
 
-namespace TourAgency.Repositories {
-    public class TypeRepository {
-
+namespace TourAgency.Repositories.Implementations {
+    public class TypeRepository : ITypeRepository {
         public List<Type> getAll() {
             List<Type> types;
             using (var dbContext = new TourAgencyDbContext()) {

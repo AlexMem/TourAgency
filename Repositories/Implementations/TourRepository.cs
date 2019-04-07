@@ -5,8 +5,8 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using TourAgency.Contexts;
 using TourAgency.Models;
 
-namespace TourAgency.Repositories {
-    public class TourRepository {
+namespace TourAgency.Repositories.Implementations {
+    public class TourRepository : ITourRepository {
 
         public List<Tour> getAll() {
             List<Tour> tours;
@@ -70,8 +70,8 @@ namespace TourAgency.Repositories {
                 tours = dbContext.tours
                                  .Include(t => t.type)
                                  .Include(t => t.user)
-                                 .ToList();
-                tours.RemoveAll(t => t.isHot.Equals(isHot));
+                                 .ToList()
+                                 .FindAll(t => t.isHot.Equals(isHot));
             }
             return tours;
         }
@@ -82,8 +82,20 @@ namespace TourAgency.Repositories {
                 tours = dbContext.tours
                                  .Include(t => t.type)
                                  .Include(t => t.user)
-                                 .ToList();
-                tours.RemoveAll(t => t.user.userId.Equals(user.userId));
+                                 .ToList()
+                                 .FindAll(t => t.user.userId.Equals(user.userId));
+            }
+            return tours;
+        }
+        
+        public List<Tour> findByUserEmail(string email) {
+            List<Tour> tours;
+            using (var dbContext = new TourAgencyDbContext()) {
+                tours = dbContext.tours
+                                 .Include(t => t.type)
+                                 .Include(t => t.user)
+                                 .ToList()
+                                 .FindAll(t => t.user.email.Equals(email));
             }
             return tours;
         }

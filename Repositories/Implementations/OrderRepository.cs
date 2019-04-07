@@ -5,8 +5,13 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using TourAgency.Contexts;
 using TourAgency.Models;
 
-namespace TourAgency.Repositories {
-    public sealed class OrderRepository {
+namespace TourAgency.Repositories.Implementations {
+    public sealed class OrderRepository : IOrderRepository {
+        private ITourRepository tourRepository;
+
+        public OrderRepository(ITourRepository tourRepository) {
+            this.tourRepository = tourRepository;
+        }
       
         public List<Order> getAll() {
             List<Order> orders;
@@ -77,14 +82,11 @@ namespace TourAgency.Repositories {
         }
 
         public List<Order> findByAgentEmail(string email) {
-            List<Order> orders;
-            using (var dbContext = new TourAgencyDbContext()) {
-                orders = dbContext.orders
-                                  .Include(o => o.user)
-                                  .Include(o => o.tour)
-                                  .ToList()
-                                  .FindAll(o => o.tour.user.email.Equals(email));
-            }
+            List<Order> orders = getAll();
+            orders?.ForEach(o => {
+                o.tour = tourRepository.findById((long) o.tour.tourId);
+            });
+            orders?.FindAll(o => o.tour.user.email.Equals(email));
             return orders;
         }
     }

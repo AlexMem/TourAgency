@@ -19,82 +19,99 @@
     }
 </script>
 <body>
-    <div class="container-fluid" style="text-align: center; margin: 5px 5px 5px">
+    <div class="container-fluid" style="text-align: center;">
         <h1>Order details</h1>
         @using (Html.BeginForm("createOrder", "Order", FormMethod.Post)) {
             <div class="container">
                 <div class="container">
-                    <div class="col">
-                        <div class="row">
-                            <label>Place</label>
-                            @Model.tour.place
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Place</span>
                         </div>
-                        <div class="row">
-                            <label>Type</label>
-                            @Model.tour.type.name
-                        </div>
-                        <div class="row">
-                            <label>Date</label>
-                            @Model.tour.fromDate
-                        </div>
-                        <div class="row">
-                            <label>Duration (days)</label>
-                            @Model.tour.duration
-                        </div>
-                        <div class="row">
-                            <label>Price (per man)</label>
-                            <input id="price" value="@Model.tour.price">
-                        </div>
-                        <div class="row">
-                            <label>Quantity of tickets</label>
-                            @Model.tour.maxAmountOfPeople
-                        </div>
-                        @if (Model.user.isRegular || Model.tour.isHot) {
-                            Tour tour = Model.tour;
-                            User customer = Model.user;
-                            double discount = 0;
-
-                            if (customer.isRegular) {
-                                if (tour.isHot && tour.hotDiscount > tour.discount) {
-                                    discount = tour.hotDiscount;
-                                } else {
-                                    discount = tour.discount;
-                                }
-                            } else {
-                                if (Model.tour.isHot) {
-                                    discount = Model.tour.hotDiscount;
-                                }
-                            }
-                            <div class="row">
-                                <label>Discount</label>
-                                <input id="discount" value="@discount">
-                            </div>
-                        }
+                        <input class="form-control" value="@Model.tour.place" readonly>
                     </div>
-                    <div class="col">
-                        <div class="row">
-                            <label>Description</label>
-                            @Model.tour.description
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Type</span>
                         </div>
+                        <input class="form-control" value="@Model.tour.type.name" readonly>
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Date</span>
+                        </div>
+                        <input class="form-control" value="@Model.tour.fromDate.ToShortDateString()" readonly>
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Duration (days)</span>
+                        </div>
+                        <input class="form-control" value="@Model.tour.duration" readonly>
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Price (per man)</span>
+                        </div>
+                        <input class="form-control" id="price" value="@Model.tour.price" readonly>
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Quantity of tickets</span>
+                        </div>
+                        <input class="form-control" value="@Model.tour.maxAmountOfPeople" readonly>
+                    </div>
+                    
+                    @if (Model.user.isRegular || Model.tour.isHot) {
+                        Tour tour = Model.tour;
+                        User customer = Model.user;
+                        double discount = 0;
+
+                        if (customer.isRegular) {
+                            if (tour.isHot && tour.hotDiscount > tour.discount) {
+                                discount = tour.hotDiscount;
+                            } else {
+                                discount = tour.discount;
+                            }
+                        } else {
+                            if (Model.tour.isHot) {
+                                discount = Model.tour.hotDiscount;
+                            }
+                        }
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Discount</span>
+                            </div>
+                            <input class="form-control" id="discount" value="@discount" readonly>
+                        </div>
+                    }
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Description</span>
+                        </div>
+                        <textarea style="max-height: fit-content; min-height: fit-content" class="form-control" id="discount" readonly>@Model.tour.description</textarea>
                     </div>
                 </div>
                 <hr/>
                 <div class="container">
-                    <div class="col">
-                        <label>Amount of people: </label>
-                        <input name="amountOfPeople" type="number" min="1" max="8" step="1" value="1" oninput='recount(this.value)'/>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Amount of people</span>
+                        </div>
+                        <input class="form-control" name="amountOfPeople" type="number" min="1" max="8" step="1" value="1" oninput='recount(this.value)'/>
                     </div>
-                    <div class="col">
-                        <label>Final price: </label>
-                        <span id="finalPrice" name="finalPrice" value="0"></span>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Final price</span>
+                        </div>
+                        <input class="form-control" id="finalPrice" name="finalPrice" value="0" readonly>
                     </div>
                 </div>
                 <div class="container">
                     <div class="col">
-                        <input type="submit" value="Buy" onclick='location.href = "/orders"'/>
-                    </div>
-                    <div class="col">
-                        <input type="button" value="Cancel" onclick='location.href = "/tours"'/>
+                        <input type="hidden" name="tourId" value="@Model.tour.tourId"/>
+                        <input type="hidden" name="userId" value="@Model.user.userId"/>
+                        <input class="btn btn-info" type="submit" value="Buy"/>
+                        <input class="btn btn-info" type="button" value="Cancel" onclick='location.href = "/tours"'/>
                     </div>
                 </div>
             </div>

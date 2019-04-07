@@ -1,17 +1,15 @@
 using System;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TourAgency.Models;
 using TourAgency.Services;
-using TourAgency.StaticClasses;
 
 namespace TourAgency.Controllers {
     [Route("/users")][Authorize(Roles = "admin, agent, customer")]
     public class UserController : Controller {
-        private readonly UserService userService;
+        private readonly IUserService userService;
 
-        public UserController(UserService userService) {
+        public UserController(IUserService userService) {
             this.userService = userService;
         }
 

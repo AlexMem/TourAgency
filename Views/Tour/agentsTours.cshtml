@@ -26,22 +26,22 @@
     <h1>All my tours</h1>
     <table class="table table-info table-striped table-bordered">
         <thead>
-        <td>Type</td>
-        <td>Tour from date</td>
-        <td>Duration</td>
-        <td>Is hot</td>
-        <td>Hot discount</td>
-        <td>Discount for regular buyers</td>
-        <td>Base price</td>
-        <td>Max amount of people</td>
-        <td>Place</td>
-        <td>Description</td>
+            <th>Type</th>
+            <th>Tour from date</th>
+            <th>Duration</th>
+            <th>Is hot</th>
+            <th>Hot discount</th>
+            <th>Discount for regular buyers</th>
+            <th>Base price</th>
+            <th>Max amount of people</th>
+            <th>Place</th>
+            <th>Description</th>
         </thead>
         @{
             foreach (Tour tour in Model) {
                 <tr>
                     <td>@tour.type.name</td>
-                    <td>@tour.fromDate</td>
+                    <td>@tour.fromDate.ToShortDateString()</td>
                     <td>@tour.duration</td>
                     <td>@tour.isHot</td>
                     <td>@tour.hotDiscount</td>

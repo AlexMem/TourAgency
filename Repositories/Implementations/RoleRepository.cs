@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using TourAgency.Contexts;
 using TourAgency.Models;
 
-namespace TourAgency.Repositories {
-    public class RoleRepository {
+namespace TourAgency.Repositories.Implementations {
+    public class RoleRepository : IRoleRepository {
       
         public List<Role> getAll() {
             List<Role> roles;

@@ -2,16 +2,17 @@ using System;
 using System.Collections.Generic;
 using TourAgency.Models;
 using TourAgency.Repositories;
+using TourAgency.Repositories.Implementations;
 
-namespace TourAgency.Services {
-    public class OrderService {
-        private readonly OrderRepository orderRepository;
-        private readonly TourService tourService;
-        private readonly UserService userService;
+namespace TourAgency.Services.Implementations {
+    public class OrderService : IOrderService {
+        private readonly IOrderRepository orderRepository;
+        private readonly ITourService tourService;
+        private readonly IUserService userService;
 
-        public OrderService(OrderRepository orderRepository,
-                            TourService tourService,
-                            UserService userService) {
+        public OrderService(IOrderRepository orderRepository,
+                            ITourService tourService,
+                            IUserService userService) {
             this.orderRepository = orderRepository;
             this.tourService = tourService;
             this.userService = userService;
